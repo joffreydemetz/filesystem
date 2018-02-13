@@ -15,4 +15,6 @@ namespace JDZ\Filesystem;
 abstract class Helper
 {
   use \JDZ\Utilities\Traits\Translatable;
+  
+  protected static $translationDefaultValue = true;
 }
