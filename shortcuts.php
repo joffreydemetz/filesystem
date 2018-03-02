@@ -10,12 +10,12 @@
  * Set filesystem i18n
  * 
  * @param   array   $strings   Key/value pairs of translations
- * @param   bool    $default   Default translation if not set
+ * @param   bool    $default   Default translation if not set (@deprecated)
  * @return  void
  * @author  Joffrey Demetz <joffrey.demetz@gmail.com>
  */
-function FilesystemTranslate($strings, $default=false)
+function FilesystemTranslate(array $strings=[], $default='Unknown Error')
 {
   \JDZ\Filesystem\Helper::setTranslations($strings);
-  \JDZ\Filesystem\Helper::setTranslationDefaultValue($default);
+  // \JDZ\Filesystem\Helper::setTranslationDefaultValue($default);
 }

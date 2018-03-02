@@ -87,6 +87,10 @@ abstract class Folder
    */
   public static function delete($path)
   {
+    if ( !Folder::exists($path) ){
+      return true;
+    }
+    
     $path = Path::clean($path);
     
     if ( trim($path) === '' ){
@@ -191,7 +195,7 @@ abstract class Folder
    * @return   array     Array of folders
    * @throws   Exception
    */
-  public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
+  public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'Thumbs.db'), $excludefilter = array('^\..*'))
   {
     $path = Path::clean($path);
 
