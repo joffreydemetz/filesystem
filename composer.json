@@ -3,22 +3,21 @@
     "type": "library",
     "description": "Filesystem",
     "keywords": ["filesystem"],
-    "homepage": "http://joffreydemetz.com/git/filesystem/",
-    "version": "1.2.2",
+    "homepage": "https://github.com/joffreydemetz/filesystem/",
+    "version": "1.2.3",
     "license": "MIT",
 
     "authors": [
         {
             "name": "Joffrey Demetz",
             "email": "joffrey.demetz@gmail.com",
-            "homepage": "http://joffreydemetz.com",
+            "homepage": "https://joffreydemetz.com",
             "role": "Lead"
         }
     ],
     
     "require": {
-        "php": ">=5.6",
-        "symfony/filesystem": "^3.3",
+        "symfony/filesystem": "^3.4|^4.0",
         "jdz/helpers": "^1.2",
         "jdz/utilities": "^1.2"
     },
