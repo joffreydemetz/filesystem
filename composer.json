@@ -4,7 +4,7 @@
     "description": "Filesystem",
     "keywords": ["filesystem"],
     "homepage": "https://github.com/joffreydemetz/filesystem/",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "license": "MIT",
 
     "authors": [
@@ -26,9 +26,6 @@
     "autoload": {
         "psr-4": {
             "JDZ\\Filesystem\\": "src"
-        },
-        "files": [
-            "shortcuts.php"
-        ]
+        }
     }
 }

@@ -36,7 +36,7 @@ abstract class Folder
     try {
       $fs->mirror($src, $dest, null, [ 'override' => $force, 'delete' => $delete, 'copy_on_windows' => true ]);
     } catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_FINDING_SOURCE_FOLDER').' '.$e->getPath());
+      throw new Exception(Helper::getTranslation('CANNOT_FIND_SOURCE').' '.$e->getPath());
     }
     
     return true;
@@ -58,7 +58,7 @@ abstract class Folder
     try {
       $fs->mkdir($path);
     } catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_CREATING_FOLDER').' '.$e->getPath());
+      throw new Exception(Helper::getTranslation('FAILED_CREATING').' '.$e->getPath());
     }
     
     return true;
@@ -94,7 +94,7 @@ abstract class Folder
     $path = Path::clean($path);
     
     if ( trim($path) === '' ){
-      throw new Exception(Helper::getTranslation('FOLDER_CANNOT_DELETE_ROOT'));
+      throw new Exception(Helper::getTranslation('FAILED_DELETING').' : Cannot delete root path');
     }
     
     $fs = new Filesystem();
@@ -103,7 +103,7 @@ abstract class Folder
       $fs->remove($path);
     }
     catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_DELETING_FOLDER').' - ('.$e->getMessage().')');
+      throw new Exception(Helper::getTranslation('FAILED_DELETING').' - ('.$e->getMessage().')');
     }
     
     return true;
@@ -124,11 +124,11 @@ abstract class Folder
     $dest = Path::clean($dest);
     
     if ( !Folder::exists($src) ){
-      throw new Exception(Helper::getTranslation('FAILED_FINDING_SOURCE_FOLDER'));
+      throw new Exception(Helper::getTranslation('CANNOT_FIND_SOURCE').' : '.$src);
     }
     
     if ( Folder::exists($dest) ){
-      throw new Exception(Helper::getTranslation('FOLDER_ALREADY_EXISTS'));
+      throw new Exception(Helper::getTranslation('ALREADY_EXISTS').' : '.$dest);
     }
     
     $fs = new Filesystem();
@@ -137,13 +137,12 @@ abstract class Folder
       $fs->rename($src, $dest, $overwrite);
     }
     catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_RENAMING_FOLDER').' - ('.$e->getMessage().')');
+      throw new Exception(Helper::getTranslation('FAILED_RENAMING').' - ('.$e->getMessage().')');
     }
     
     return true;
   }
 
-  
   /**
    * Utility function to read the files in a folder.
    *
@@ -162,7 +161,7 @@ abstract class Folder
     $path = Path::clean($path);
 
     if ( !is_dir($path) ){
-      throw new Exception(Helper::getTranslation('FOLDER_PATH_IS_NOT_A_FOLDER'));
+      throw new Exception(Helper::getTranslation('NOT_A_FOLDER'));
     }
 
     if ( count($excludefilter) ){
@@ -200,7 +199,7 @@ abstract class Folder
     $path = Path::clean($path);
 
     if ( !is_dir($path) ){
-      throw new Exception(Helper::getTranslation('FOLDER_PATH_IS_NOT_A_FOLDER'));
+      throw new Exception(Helper::getTranslation('NOT_A_FOLDER'));
     }
 
     if ( count($excludefilter) ){

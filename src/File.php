@@ -35,12 +35,16 @@ abstract class File
     $src  = Path::clean($src);
     $dest = Path::clean($dest);
     
+    if ( !Folder::exists(dirname($dest)) ){
+      Folder::create(dirname($dest));
+    }
+    
     $fs = new Filesystem();
     
     try {
       $fs->copy($src, $dest, $force);
     } catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_FINDING_SOURCE_FOLDER').' '.$e->getPath());
+      throw new Exception(Helper::getTranslation('CANNOT_FIND_SOURCE').' '.$e->getPath());
     }
     
     return true;
@@ -98,7 +102,7 @@ abstract class File
       $fs->remove($path);
     }
     catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_DELETING_FILE').' - ('.$e->getMessage().')');
+      throw new Exception(Helper::getTranslation('FAILED_DELETING').' - ('.$e->getMessage().')');
     }
     
     return true;
@@ -119,11 +123,11 @@ abstract class File
     $dest = Path::clean($dest);
     
     if ( !File::exists($src) ){
-      throw new Exception(Helper::getTranslation('UNABLE_TO_FIND_SOURCE_FILE'));
+      throw new Exception(Helper::getTranslation('CANNOT_FIND_SOURCE').' : '.$src);
     }
     
     if ( File::exists($dest) ){
-      throw new Exception(Helper::getTranslation('FILE_ALREADY_EXISTS'));
+      throw new Exception(Helper::getTranslation('ALREADY_EXISTS').' : '.$src);
     }
     
     try {
@@ -131,7 +135,7 @@ abstract class File
       $fs->rename($src, $dest, $overwrite);
     }
     catch(IOExceptionInterface $e){
-      throw new Exception(Helper::getTranslation('FAILED_RENAMING_FILE').' - ('.$e->getMessage().')');
+      throw new Exception(Helper::getTranslation('FAILED_RENAMING').' - ('.$e->getMessage().')');
     }
     
     return true;
@@ -180,10 +184,10 @@ abstract class File
         return true;
       }
       
-      throw new Exception(Helper::getTranslation('UNABLE_TO_MODIFY_FILE_PERMISSIONS'));
+      throw new Exception(Helper::getTranslation('FAILED_CHMOD'));
     }
     
-    throw new Exception(Helper::getTranslation('UNABLE_TO_MOVE_UPLOADED_FILE'));
+    throw new Exception(Helper::getTranslation('FAILED_MOVE_UPLOAD'));
   }
 
   /**
