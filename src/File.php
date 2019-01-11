@@ -126,7 +126,7 @@ abstract class File
       throw new Exception(Helper::getTranslation('CANNOT_FIND_SOURCE').' : '.$src);
     }
     
-    if ( File::exists($dest) ){
+    if ( File::exists($dest) && !$overwrite ){
       throw new Exception(Helper::getTranslation('ALREADY_EXISTS').' : '.$src);
     }
     
@@ -205,8 +205,8 @@ abstract class File
   /**
    * Strips the last extension off of a file name
    *
-   * @param   string  $file  The file name
-   * @return   string  The file name without the extension
+   * @param  string  $file  The file name
+   * @return string  The file name without the extension
    */
   public static function stripExt($file)
   {
@@ -228,6 +228,31 @@ abstract class File
     }
 
     return $file;
+  }
+  
+  /**
+   * Returns the file path
+   *
+   * @param  string  $file 
+   * @return string
+   */
+  public static function getPath(string $file)
+  {
+    $parts = explode('/', $file);
+    array_pop($parts);
+    return implode('/', $parts);
+  }
+  
+  /**
+   * Returns the name, without any path nor extension
+   *
+   * @param  string  $file  File path
+   * @return string  filename with no extension
+   */
+  public static function getStrippedName($file)
+  {
+    $name = self::getName($file);
+    return self::stripExt($name);
   }
   
   /**
