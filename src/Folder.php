@@ -233,11 +233,11 @@ abstract class Folder
 
     $arr = [];
 
-    if ( !($handle = @opendir($path)) ){
+    if ( false === ($handle=@opendir($path)) ){
       return $arr;
     }
 
-    while(($file = readdir($handle)) !== false){
+    while( false !== ($file=readdir($handle)) ){
       if ( $file != '.' && $file != '..' && !in_array($file, $exclude) && (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)) ){
         $fullpath = $path . DIRECTORY_SEPARATOR . $file;
 

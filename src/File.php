@@ -157,6 +157,37 @@ abstract class File
     return file_get_contents($path);
   }
   
+  public static function same(string $path1, string $path2){
+    if ( false === ($fp1=fopen($path1, 'rb')) ){
+      return false;
+    }
+    
+    if ( false === ($fp2=fopen($path2, 'rb')) ){
+        fclose($fp1);
+        return false;
+    }
+    
+    if ( mime_content_type($path1) !== mime_content_type($path2) 
+      || filetype($path1) !== filetype($path2)
+      || filesize($path1) <> filesize($path2)
+    ){
+      fclose($fp1);
+      fclose($fp2);
+      return false;
+    }
+    
+    if ( fread($fp1, filesize($path1)) !== fread($fp2, filesize($path2)) ){
+      fclose($fp1);
+      fclose($fp2);
+      return false;
+    }
+    
+    fclose($fp1);
+    fclose($fp2);
+
+    return true;
+  }
+
   /**
    * Moves an uploaded file to a destination folder
    *
@@ -258,15 +289,19 @@ abstract class File
   /**
    * Makes file name safe to use
    *
-   * @param   string  $file  The name of the file [not full path]
-   * @return   string  The sanitised string
+   * @param  string  $file  The name of the file [not full path]
+   * @return string  The sanitised string
    */
   public static function makeSafe($file)
   {
+    $regex = [ 
+      '#(\.){2,}#', 
+      '#[^A-Za-z0-9\.\_\- ]#', '#^\.#',
+    ];
+    
     $file = rtrim($file, '.');
-    $regex = [ '#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#' ];
     $clean = preg_replace($regex, ' ', $file);
-    $clean = preg_replace("/ /", '-', $clean);
+    $clean = preg_replace("/[ \_]/", '-', $clean);
     $clean = preg_replace("/[\-]+/", '-', $clean);
     return $clean;
   }
