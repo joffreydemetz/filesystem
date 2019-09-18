@@ -163,7 +163,7 @@ abstract class Folder
     if ( !is_dir($path) ){
       throw new Exception(Helper::getTranslation('NOT_A_FOLDER'));
     }
-
+    
     if ( count($excludefilter) ){
       $excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
     }

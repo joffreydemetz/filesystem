@@ -85,7 +85,7 @@ abstract class File
     
     return true;
   }
-
+  
   /**
    * Delete a file or array of files
    *
@@ -150,11 +150,17 @@ abstract class File
    */
   public static function read($path)
   {
+    $content = '';
+    
     $path = Path::clean($path);
-    if ( !File::exists($path) ){
-      return '';
+    
+    if ( File::exists($path) ){
+      if ( false === ($content=file_get_contents($path)) ){
+        $content = '';
+      }
     }
-    return file_get_contents($path);
+    
+    return $content;
   }
   
   public static function same(string $path1, string $path2){
